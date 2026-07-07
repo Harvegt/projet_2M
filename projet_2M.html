@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2MTV - National Television Ticket Management</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#edf2f7;
+}
+
+/* LOGIN PAGE */
+
+#loginPage{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:linear-gradient(135deg,#001F54,#D90429);
+}
+
+.login-box{
+    width:380px;
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    text-align:center;
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    background:#001F54;
+    color:white;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:32px;
+    font-weight:bold;
+    margin:auto;
+    margin-bottom:20px;
+}
+
+.login-box h1{
+    color:#001F54;
+}
+
+.login-box p{
+    color:#666;
+    margin:10px 0 25px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:13px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.login-btn{
+    width:100%;
+    padding:14px;
+    background:#D90429;
+    color:white;
+    font-size:17px;
+    border-radius:8px;
+}
+
+.login-btn:hover{
+    background:#001F54;
+}
+
+/* DASHBOARD */
+
+#dashboard{
+    display:none;
+}
+
+header{
+    background:#001F54;
+    color:white;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h2{
+    font-size:28px;
+}
+
+nav button{
+    padding:10px 18px;
+    margin-left:10px;
+    border-radius:6px;
+    background:white;
+    color:#001F54;
+    font-weight:bold;
+}
+
+.logout{
+    background:#D90429;
+    color:white;
+}
+
+.container{
+    display:flex;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:220px;
+    min-height:calc(100vh - 80px);
+    background:#0b2545;
+    padding:20px;
+}
+
+.sidebar button{
+    width:100%;
+    margin-bottom:15px;
+    padding:15px;
+    background:#163b65;
+    color:white;
+    border-radius:8px;
+}
+
+.sidebar button:hover{
+    background:#D90429;
+}
+
+/* Main */
+
+.main{
+    flex:1;
+    padding:30px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    border-left:7px solid #D90429;
+    border-radius:10px;
+    padding:25px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.card h3{
+    color:#001F54;
+    margin-bottom:10px;
+}
+
+.card h1{
+    color:#D90429;
+}
+
+/* Ticket Form */
+
+.ticket-box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+
+.ticket-box h2{
+    color:#001F54;
+    margin-bottom:20px;
+}
+
+label{
+    font-weight:bold;
+    color:#001F54;
+}
+
+textarea{
+    resize:vertical;
+}
+
+.submit{
+    width:100%;
+    background:#D90429;
+    color:white;
+    padding:15px;
+    font-size:17px;
+    border-radius:8px;
+}
+
+.submit:hover{
+    background:#001F54;
+}
+
+/* Table */
+
+table{
+    width:100%;
+    margin-top:35px;
+    border-collapse:collapse;
+    background:white;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+th{
+    background:#001F54;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    border-bottom:1px solid #ddd;
+}
+
+.status-open{
+    color:red;
+    font-weight:bold;
+}
+
+.status-progress{
+    color:orange;
+    font-weight:bold;
+}
+
+.status-closed{
+    color:green;
+    font-weight:bold;
+}
+
+@media(max-width:900px){
+
+.container{
+    flex-direction:column;
+}
+
+.sidebar{
+    width:100%;
+    display:flex;
+    overflow:auto;
+}
+
+.sidebar button{
+    min-width:160px;
+    margin-right:10px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+
+<div id="loginPage">
+
+<div class="login-box">
+
+<div class="logo">
+2M
+</div>
+
+<h1>2MTV</h1>
+
+<p>National Television Ticket Management System</p>
+
+<input type="email" placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<select id="role">
+<option value="user">Employee</option>
+<option value="admin">Administrator</option>
+</select>
+
+<button class="login-btn" onclick="login()">
+Login
+</button>
+
+</div>
+
+</div>
+
+<!-- DASHBOARD -->
+
+<div id="dashboard">
+
+<header>
+
+<h2>📺 2MTV Portal</h2>
+
+<div>
+
+<span id="welcome"></span>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+</header>
+
+<div class="container">
+
+<div class="sidebar">
+
+<button>🏠 Dashboard</button>
+
+<button>🎫 Tickets</button>
+
+<button>👥 Users</button>
+
+<button>📊 Reports</button>
+
+<button>⚙ Settings</button>
+
+</div>
+
+<div class="main">
+
+<div class="cards">
+
+<div class="card">
+<h3>Open Tickets</h3>
+<h1>34</h1>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<h1>12</h1>
+</div>
+
+<div class="card">
+<h3>Resolved</h3>
+<h1>97</h1>
+</div>
+
+<div class="card">
+<h3>Departments</h3>
+<h1>8</h1>
+</div>
+
+</div>
+
+<div class="ticket-box">
+
+<h2>Create New Ticket</h2>
+
+<label>Subject</label>
+
+<input type="text" placeholder="Example: Studio Camera Failure">
+
+<label>Department</label>
+
+<select>
+
+<option>Broadcast</option>
+
+<option>IT</option>
+
+<option>Journalism</option>
+
+<option>Production</option>
+
+<option>Maintenance</option>
+
+<option>Human Resources</option>
+
+</select>
+
+<label>Priority</label>
+
+<select>
+
+<option>Low</option>
+
+<option>Medium</option>
+
+<option>High</option>
+
+<option>Critical</option>
+
+</select>
+
+<label>Description</label>
+
+<textarea rows="4"></textarea>
+
+<label>Additional Details</label>
+
+<textarea rows="6" placeholder="Include equipment number, location, error messages, time of incident..."></textarea>
+
+<button class="submit">
+Submit Ticket
+</button>
+
+</div>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Employee</th>
+
+<th>Department</th>
+
+<th>Status</th>
+
+<th>Priority</th>
+
+</tr>
+
+<tr>
+
+<td>#1001</td>
+
+<td>Ahmed</td>
+
+<td>Broadcast</td>
+
+<td class="status-open">Open</td>
+
+<td>Critical</td>
+
+</tr>
+
+<tr>
+
+<td>#1002</td>
+
+<td>Sarah</td>
+
+<td>IT</td>
+
+<td class="status-progress">In Progress</td>
+
+<td>Medium</td>
+
+</tr>
+
+<tr>
+
+<td>#1003</td>
+
+<td>Karim</td>
+
+<td>Production</td>
+
+<td class="status-closed">Closed</td>
+
+<td>Low</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function login(){
+
+document.getElementById("loginPage").style.display="none";
+
+document.getElementById("dashboard").style.display="block";
+
+let role=document.getElementById("role").value;
+
+document.getElementById("welcome").innerHTML=
+role==="admin"
+?"Administrator"
+:"Employee";
+
+}
+
+function logout(){
+
+document.getElementById("dashboard").style.display="none";
+
+document.getElementById("loginPage").style.display="flex";
+
+}
+
+</script>
+
+</body>
+</html>
