@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2MTV - Users</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#edf2f7;
+}
+
+header{
+    background:#001F54;
+    color:white;
+    padding:20px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h2{
+    font-size:26px;
+}
+
+header nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+    font-weight:bold;
+}
+
+header nav a:hover{
+    color:#D90429;
+}
+
+.container{
+    display:flex;
+}
+
+.sidebar{
+    width:220px;
+    min-height:calc(100vh - 76px);
+    background:#0b2545;
+    padding:20px;
+}
+
+.sidebar a{
+    display:block;
+    text-decoration:none;
+    width:100%;
+    margin-bottom:15px;
+    padding:15px;
+    background:#163b65;
+    color:white;
+    border-radius:8px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.sidebar a:hover{
+    background:#D90429;
+}
+
+.sidebar a.active{
+    background:#D90429;
+}
+
+.main{
+    flex:1;
+    padding:30px;
+}
+
+.page-title{
+    color:#001F54;
+    margin-bottom:25px;
+    font-size:26px;
+}
+
+.form-box{
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    margin-bottom:30px;
+    max-width:500px;
+}
+
+.form-box h3{
+    color:#001F54;
+    margin-bottom:20px;
+}
+
+label{
+    font-weight:bold;
+    color:#001F54;
+    display:block;
+    margin-bottom:6px;
+}
+
+input, select{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+    transition:.3s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.btn-primary{
+    width:100%;
+    background:#D90429;
+    color:white;
+    padding:14px;
+    font-size:16px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.btn-primary:hover{
+    background:#001F54;
+}
+
+.user-card{
+    background:white;
+    padding:20px 25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    margin-bottom:12px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-left:6px solid #D90429;
+}
+
+.user-info strong{
+    color:#001F54;
+    font-size:16px;
+}
+
+.user-info small{
+    color:#666;
+}
+
+.badge{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+    color:white;
+}
+
+.badge.admin{ background:#D90429; }
+.badge.employee{ background:#001F54; }
+
+@media(max-width:900px){
+
+.container{
+    flex-direction:column;
+}
+
+.sidebar{
+    width:100%;
+    display:flex;
+    overflow:auto;
+    min-height:auto;
+}
+
+.sidebar a{
+    min-width:160px;
+    margin-right:10px;
+    margin-bottom:0;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>📺 2MTV Portal</h2>
+<nav>
+<a href="dashboard.html">Dashboard</a>
+<a href="login.html">Logout</a>
+</nav>
+</header>
+
+<div class="container">
+
+<div class="sidebar">
+<a href="dashboard.html">🏠 Dashboard</a>
+<a href="tickets.html">🎫 Tickets</a>
+<a href="users.html" class="active">👥 Users</a>
+<a href="reports.html">📊 Reports</a>
+<a href="settings.html">⚙ Settings</a>
+</div>
+
+<div class="main">
+
+<h1 class="page-title">Users</h1>
+
+<div class="form-box">
+<h3>Add New User</h3>
+
+<label>Full Name</label>
+<input type="text" id="newName" placeholder="Full name">
+
+<label>Email</label>
+<input type="email" id="newEmail" placeholder="name@2mtv.ma">
+
+<label>Role</label>
+<select id="newRole">
+<option value="employee">Employee</option>
+<option value="admin">Administrator</option>
+</select>
+
+<button class="btn-primary" onclick="addUser()">Add User</button>
+</div>
+
+<div id="usersList">
+<div class="user-card">
+<div class="user-info">
+<strong>Ahmed Bennani</strong><br>
+<small>ahmed.bennani@2mtv.ma</small>
+</div>
+<span class="badge admin">Administrator</span>
+</div>
+
+<div class="user-card">
+<div class="user-info">
+<strong>Sarah El Amrani</strong><br>
+<small>sarah.elamrani@2mtv.ma</small>
+</div>
+<span class="badge employee">Employee</span>
+</div>
+
+<div class="user-card">
+<div class="user-info">
+<strong>Karim Tazi</strong><br>
+<small>karim.tazi@2mtv.ma</small>
+</div>
+<span class="badge employee">Employee</span>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+function addUser(){
+    const name = document.getElementById("newName").value.trim();
+    const email = document.getElementById("newEmail").value.trim();
+    const roleSelect = document.getElementById("newRole");
+    const role = roleSelect.value;
+    const roleLabel = roleSelect.options[roleSelect.selectedIndex].text;
+
+    if(!name || !email){
+        alert("Veuillez remplir le nom et l'email.");
+        return;
+    }
+
+    const card = document.createElement("div");
+    card.className = "user-card";
+    card.innerHTML = `
+        <div class="user-info">
+            <strong>${name}</strong><br>
+            <small>${email}</small>
+        </div>
+        <span class="badge ${role}">${roleLabel}</span>
+    `;
+
+    document.getElementById("usersList").appendChild(card);
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newEmail").value = "";
+}
+</script>
+
+</body>
+</html>
