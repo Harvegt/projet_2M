@@ -90,6 +90,14 @@ button:hover{
 
 .login-btn:hover{
     background:#001F54;
+    }
+.login-error{
+    color:#D90429;
+    font-size:13px;
+    margin:-8px 0 15px;
+    min-height:16px;
+    text-align:left;
+
 }
 
 /* DASHBOARD */
@@ -292,9 +300,9 @@ td{
 
 <p>National Television Ticket Management System</p>
 
-<input type="email" placeholder="Email">
-
-<input type="password" placeholder="Password">
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPassword" placeholder="Password">
+<div class="login-error" id="loginError"></div>
 
 <select id="role">
 <option value="user">Employee</option>
@@ -493,27 +501,43 @@ Submit Ticket
 
 <script>
 
+// ======== LOGIN CREDENTIALS ========
+const users = [
+  { email: "admin@2mtv.ma", password: "admin123", role: "admin" },
+  { email: "employee@2mtv.ma", password: "employee123", role: "user" }
+];
+// Edit the users above to add/remove accounts.
+
 function login(){
+    const email=document.getElementById("loginEmail").value.trim();
+    const password=document.getElementById("loginPassword").value;
+    const role=document.getElementById("role").value;
+    const errorBox=document.getElementById("loginError");
 
-document.getElementById("loginPage").style.display="none";
+    if(!email || !password){
+        errorBox.textContent="Please enter both email and password.";
+        return;
+    }
 
-document.getElementById("dashboard").style.display="block";
+    const user=users.find(u=>u.email===email && u.password===password && u.role===role);
 
-let role=document.getElementById("role").value;
+    if(!user){
+        errorBox.textContent="Incorrect email, password, or role.";
+        return;
+    }
 
-document.getElementById("welcome").innerHTML=
-role==="admin"
-?"Administrator"
-:"Employee";
-
+    errorBox.textContent="";
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+    document.getElementById("welcome").textContent=user.role==="admin"?"Administrator":"Employee";
 }
 
 function logout(){
-
-document.getElementById("dashboard").style.display="none";
-
-document.getElementById("loginPage").style.display="flex";
-
+    document.getElementById("dashboard").style.display="none";
+    document.getElementById("loginPage").style.display="flex";
+    document.getElementById("loginEmail").value="";
+    document.getElementById("loginPassword").value="";
+    document.getElementById("loginError").textContent="";
 }
 
 </script>
